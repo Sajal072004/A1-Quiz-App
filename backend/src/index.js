@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import axios from "axios";
+import cron from "node-cron";
 import userRoutes from "./routes/userRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import resultRoutes from "./routes/resultRoutes.js";
@@ -30,3 +32,14 @@ app.use("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// ⏳ Schedule cron job to run every 20 minutes
+cron.schedule("*/20 * * * *", async () => {
+  console.log("⏳ Running cron job: Fetching data from database...");
+  try {
+    const response = await axios.get("https://backend-906o.onrender.com"); // Change URL accordingly
+    console.log("✅ Cron Job Success:", response.data);
+  } catch (error) {
+    console.error("❌ Cron Job Error:", error.message);
+  }
+});
