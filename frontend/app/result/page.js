@@ -44,8 +44,11 @@ export default function ResultPage() {
         <Card className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl border border-gray-300 dark:border-gray-800 relative overflow-hidden text-center">
           <CardHeader className="text-center py-0">
             <CardTitle className="text-4xl font-extrabold text-gray-800 dark:text-white">
-            🎉YAY🎉
-             <div className=" ml-2 text-4xl  text-gray-900  bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold"> {result.title}!!</div>
+              🎉YAY🎉
+              <div className=" ml-2 text-4xl  text-gray-900  bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
+                {" "}
+                {result.title}!!
+              </div>
             </CardTitle>
           </CardHeader>
 
@@ -63,10 +66,14 @@ export default function ResultPage() {
             </motion.div>
 
             {/* 🏆 Learning Type */}
-           <h1 className="mt-4"> <span className="text-4xl font-extrabold text-gray-800 dark:text-white">You are a</span>  
-           <motion.span className=" ml-2 text-4xl  text-gray-900 dark:text-gray-100 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
-            {type} Learner
-            </motion.span></h1> 
+            <h1 className="mt-4">
+              <span className="text-4xl font-extrabold text-gray-800 dark:text-white">
+                You are a&nbsp;
+              </span>
+              <motion.span className="ml-2 text-4xl text-gray-900 dark:text-gray-100 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
+                {type} Learner
+              </motion.span>
+            </h1>
 
             {/* 🔍 Specialty */}
             <motion.p className="mt-4 text-lg text-gray-700 dark:text-gray-300 text-center max-w-2xl leading-relaxed">
