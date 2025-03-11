@@ -8,15 +8,22 @@ import resultRoutes from "./routes/resultRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// ✅ Configure CORS properly
+app.use(cors({
+  origin: "http://localhost:3000",  // Allow frontend origin
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true  // Allow cookies if needed
+}));
+
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/results", resultRoutes);
 
-app.use('/', (req, res) => {
-  res.send('Server is running.');
+app.use("/", (req, res) => {
+  res.send("Server is running.");
 });
 
 const PORT = process.env.PORT || 5000;
