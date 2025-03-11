@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react"; // ✅ Import Suspense
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,15 @@ import Image from "next/image";
 import learningData from "../../lib/constants/learningType.json";
 
 export default function ResultPage() {
+  return (
+    <Suspense fallback={<LoadingComponent />}> {/* ✅ Suspense boundary added */}
+      <ResultContent />
+    </Suspense>
+  );
+}
+
+// ✅ Move searchParams logic inside a separate component
+function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const type = searchParams.get("type") || "Visual";
@@ -45,8 +55,7 @@ export default function ResultPage() {
           <CardHeader className="text-center py-0">
             <CardTitle className="text-4xl font-extrabold text-gray-800 dark:text-white">
               🎉YAY🎉
-              <div className=" ml-2 text-4xl   bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
-                {" "}
+              <div className=" ml-2 text-4xl bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
                 {result.title}!!
               </div>
             </CardTitle>
@@ -70,7 +79,7 @@ export default function ResultPage() {
               <span className="text-4xl font-extrabold text-gray-800 dark:text-white">
                 You are a&nbsp;
               </span>
-              <motion.span className="ml-2 text-4xl  bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
+              <motion.span className="ml-2 text-4xl bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
                 {type} Learner
               </motion.span>
             </h1>
@@ -103,5 +112,14 @@ export default function ResultPage() {
         </Card>
       </motion.div>
     </motion.div>
+  );
+}
+
+// ✅ Loading Component for Suspense
+function LoadingComponent() {
+  return (
+    <div className="flex items-center justify-center min-h-screen text-gray-700 dark:text-gray-300">
+      Loading results...
+    </div>
   );
 }
