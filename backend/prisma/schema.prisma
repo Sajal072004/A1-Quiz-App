@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String  @id @default(uuid())
+  name  String
+  email String  @unique
+  class String
+  results Result[]
+}
+
+model Question {
+  id       String   @id @default(uuid())
+  text     String
+  options  Option[]
+}
+
+model Option {
+  id        String   @id @default(uuid())
+  text      String
+  type      String  // Visual, Auditory, Reading/Writing, Kinesthetic
+  question  Question @relation(fields: [questionId], references: [id])
+  questionId String
+}
+
+model Result {
+  id        String  @id @default(uuid())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  type      String  // The determined learning type
+  badgeUrl  String  // URL to the badge image
+}
