@@ -45,7 +45,7 @@ export default function ResultPage() {
           <CardHeader className="text-center py-0">
             <CardTitle className="text-4xl font-extrabold text-gray-800 dark:text-white">
               🎉YAY🎉
-              <div className=" ml-2 text-4xl  text-gray-900  bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
+              <div className=" ml-2 text-4xl   bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
                 {" "}
                 {result.title}!!
               </div>
@@ -70,7 +70,7 @@ export default function ResultPage() {
               <span className="text-4xl font-extrabold text-gray-800 dark:text-white">
                 You are a&nbsp;
               </span>
-              <motion.span className="ml-2 text-4xl text-gray-900 dark:text-gray-100 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
+              <motion.span className="ml-2 text-4xl  bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
                 {type} Learner
               </motion.span>
             </h1>
@@ -86,8 +86,8 @@ export default function ResultPage() {
                 How to Improve:
               </h3>
               <ul className="list-disc space-y-4 pl-6 text-gray-800 dark:text-gray-300 text-lg">
-                {result.suggestions.map((suggestion, index) => (
-                  <motion.li key={index}>{suggestion}</motion.li>
+                {result.suggestions.map((suggestion) => (
+                  <motion.li key={suggestion}>{suggestion}</motion.li>
                 ))}
               </ul>
             </motion.div>
