@@ -2,33 +2,54 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getQuestions = async (req, res) => {
+// Create a new question with options
+export const createQuestion = async (req, res) => {
   try {
-    const questions = await prisma.question.findMany({
-      include: { options: true },
-    });
-    res.json(questions);
-  } catch (error) {
-    res.status(500).json({ error: "Error fetching questions" });
-  }
-};
+    const { questionText, options } = req.body;
 
-export const addQuestion = async (req, res) => {
-  try {
-    const { text, options } = req.body; // options should be an array of { text, type }
+    if (!questionText || !options || options.length < 2) {
+      return res.status(400).json({ error: "Invalid input: Provide question text and at least 2 options." });
+    }
 
     const question = await prisma.question.create({
       data: {
-        text,
+        text: questionText,
         options: {
-          create: options,
+          create: options.map(option => ({
+            text: option.text,
+            type: option.type, // Hidden from frontend
+          })),
         },
       },
-      include: { options: true },
+      include: {
+        options: true, // Fetch options with the question
+      },
     });
 
     res.json(question);
   } catch (error) {
-    res.status(500).json({ error: "Error adding question" });
+    console.error(error);
+    res.status(500).json({ error: "Error creating question" });
+  }
+};
+
+
+export const getQuestions = async (req, res) => {
+  try {
+    const questions = await prisma.question.findMany({
+      include: {
+        options: {
+          select: {
+            id: true,
+            text: true // Only returning text, not type
+          },
+        },
+      },
+    });
+
+    res.json(questions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching questions" });
   }
 };
