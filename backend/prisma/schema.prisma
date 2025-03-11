@@ -36,3 +36,10 @@ model Result {
   type      String  // The determined learning type
   badgeUrl  String  // URL to the badge image
 }
+
+model Referral {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String   @unique
+  createdAt DateTime @default(now())
+}

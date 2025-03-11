@@ -25,6 +25,10 @@ export default function QuizPage() {
   const [answers, setAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false); // Loader State
+  const [friendInfo, setFriendInfo] = useState({
+    name: "",
+    phone: "",
+  });
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -61,7 +65,14 @@ export default function QuizPage() {
       if (Object.keys(answers).length !== questions.length) {
         alert("Please answer all questions before submitting.");
         return;
+      } 
+      
+      if (!friendInfo.name || !friendInfo.phone) {
+        alert("Please enter your friend's details before submitting.");
+        return;
       }
+
+
 
       setIsSubmitting(true); // Activate Loader
 
@@ -75,12 +86,14 @@ export default function QuizPage() {
         ([_, index]) => optionMapping[index]
       );
 
+      await axios.post("http://localhost:5000/api/referrals", friendInfo);
+
       const resultRes = await axios.post(
         "http://localhost:5000/api/results",
         { userId, answers: formattedAnswers },
         { headers: { "Content-Type": "application/json" } }
       );
-
+      setFriendInfo({ name: "", phone: "" });
       router.push(`/result?type=${resultRes.data.type}`);
     } catch (error) {
       console.error("Error submitting quiz:", error);
@@ -164,33 +177,39 @@ export default function QuizPage() {
                 </p>
 
                 {/* Options Container */}
-<div className="mt-6 flex flex-col gap-4 w-full">
-  {q.options.map((option, idx) => (
-    <motion.div 
-      key={option.id} 
-      whileTap={{ scale: 0.97 }} 
-      className="w-full min-h-[50px] sm:min-h-[auto] flex items-center"
-    >
-      <Button
-        variant={answers[q.id] === idx ? "default" : "outline"}
-        onClick={() => handleOptionSelect(q.id, idx)}
-        className={`w-full h-full py-4 px-6 text-md text-left rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm
+                <div className="mt-6 flex flex-col gap-4 w-full">
+                  {q.options.map((option, idx) => (
+                    <motion.div
+                      key={option.id}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full min-h-[50px] sm:min-h-[auto] flex items-center"
+                    >
+                      <Button
+                        variant={answers[q.id] === idx ? "default" : "outline"}
+                        onClick={() => handleOptionSelect(q.id, idx)}
+                        className={`w-full h-full py-4 px-6 text-md text-left rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm
           hover:bg-blue-500 hover:text-gray-200 dark:hover:bg-blue-500 transition-all break-words whitespace-normal
           ${
             answers[q.id] === idx
               ? "bg-blue-500 text-white dark:bg-blue-600"
               : "bg-gray-100 text-gray-900 dark:bg-gray-500 dark:text-white"
           }`}
-      >
-        {option.text}
-      </Button>
-    </motion.div>
-  ))}
-</div>
-
+                      >
+                        {option.text}
+                      </Button>
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
+
+           {/* Refer a Friend Section */}
+           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.6 }} className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mt-6">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Do you think any of your friends would benefit from this? Enter their details:</h3>
+            <Input type="text" placeholder="Friend's Name" className="text-black dark:text-white" value={friendInfo.name} onChange={(e) => setFriendInfo({ ...friendInfo, name: e.target.value })} />
+            <Input type="tel" placeholder="Friend's Phone Number" value={friendInfo.phone} onChange={(e) => setFriendInfo({ ...friendInfo, phone: e.target.value })} className="mt-3" />
+          </motion.div>
 
           {/* Submit Button with Loader */}
           <motion.div
