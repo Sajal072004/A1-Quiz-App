@@ -34,7 +34,9 @@ export default function QuizPage() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/quiz");
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/quiz`
+        );
         setQuestions(response.data);
       } catch (error) {
         console.error("Error fetching quiz questions:", error);
@@ -79,7 +81,7 @@ export default function QuizPage() {
       setIsSubmitting(true); // Activate Loader
 
       const userRes = await axios.post(
-        "http://localhost:5000/api/users",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users`,
         studentInfo
       );
       const userId = userRes.data.id;
@@ -88,10 +90,13 @@ export default function QuizPage() {
         ([_, index]) => optionMapping[index]
       );
 
-      await axios.post("http://localhost:5000/api/referrals", friendInfo);
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/referrals`,
+        friendInfo
+      );
 
       const resultRes = await axios.post(
-        "http://localhost:5000/api/results",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/results`,
         { userId, answers: formattedAnswers },
         { headers: { "Content-Type": "application/json" } }
       );
