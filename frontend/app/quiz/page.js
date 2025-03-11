@@ -1,39 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-const dummyQuestions = [
-  {
-    id: "q1",
-    question: "Which environment helps you learn best?",
-    options: [
-      "Watching videos or diagrams",
-      "Listening to explanations",
-      "Reading books or articles",
-      "Doing hands-on activities",
-    ],
-  },
-  {
-    id: "q2",
-    question: "How do you prefer to take notes?",
-    options: [
-      "Drawing mind maps or sketches",
-      "Recording audio notes",
-      "Writing detailed summaries",
-      "Making flashcards or acting it out",
-    ],
-  },
-];
-
+// Option Mapping for Learning Styles
 const optionMapping = {
-  0: "Visual", // Option A
-  1: "Auditory", // Option B
-  2: "Reading/Writing", // Option C
-  3: "Kinesthetic", // Option D
+  0: "Visual",
+  1: "Auditory",
+  2: "Reading/Writing",
+  3: "Kinesthetic",
 };
 
 export default function QuizPage() {
@@ -45,6 +23,21 @@ export default function QuizPage() {
     email: "",
   });
   const [answers, setAnswers] = useState({});
+  const [questions, setQuestions] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Loader State
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/quiz");
+        setQuestions(response.data);
+      } catch (error) {
+        console.error("Error fetching quiz questions:", error);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
 
   const handleStartQuiz = () => {
     if (!studentInfo.name || !studentInfo.class || !studentInfo.email) {
@@ -62,43 +55,38 @@ export default function QuizPage() {
   };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return; // Prevent multiple clicks
+
     try {
-      // Ensure all questions are answered
-      if (Object.keys(answers).length !== dummyQuestions.length) {
+      if (Object.keys(answers).length !== questions.length) {
         alert("Please answer all questions before submitting.");
         return;
       }
 
-      // Create user first
-      const userRes = await axios.post("http://localhost:5000/api/users", studentInfo);
+      setIsSubmitting(true); // Activate Loader
+
+      const userRes = await axios.post(
+        "http://localhost:5000/api/users",
+        studentInfo
+      );
       const userId = userRes.data.id;
 
-      // Convert answers to learning styles
-      const formattedAnswers = Object.entries(answers).map(([_, index]) => optionMapping[index]);
-
-      console.log("Final Answers:", formattedAnswers);
-      console.log(userId);
-
-      // Submit results
-      
-      const resultRes = await axios.post("http://localhost:5000/api/results", 
-        {
-          userId,
-          answers: formattedAnswers,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json", // Ensure JSON is sent
-          },
-        }
+      const formattedAnswers = Object.entries(answers).map(
+        ([_, index]) => optionMapping[index]
       );
-      
 
-      console.log("Result:", resultRes.data);
+      const resultRes = await axios.post(
+        "http://localhost:5000/api/results",
+        { userId, answers: formattedAnswers },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
       router.push(`/result?type=${resultRes.data.type}`);
     } catch (error) {
       console.error("Error submitting quiz:", error);
       alert("Failed to submit quiz. Try again!");
+    } finally {
+      setIsSubmitting(false); // Deactivate Loader
     }
   };
 
@@ -109,7 +97,7 @@ export default function QuizPage() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md text-center"
+          className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md text-center mt-48"
         >
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
             Enter Your Details
@@ -119,26 +107,32 @@ export default function QuizPage() {
               type="text"
               placeholder="Full Name"
               value={studentInfo.name}
-              onChange={(e) => setStudentInfo({ ...studentInfo, name: e.target.value })}
+              onChange={(e) =>
+                setStudentInfo({ ...studentInfo, name: e.target.value })
+              }
               className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
             />
             <Input
               type="text"
               placeholder="Class"
               value={studentInfo.class}
-              onChange={(e) => setStudentInfo({ ...studentInfo, class: e.target.value })}
+              onChange={(e) =>
+                setStudentInfo({ ...studentInfo, class: e.target.value })
+              }
               className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
             />
             <Input
               type="email"
               placeholder="Email"
               value={studentInfo.email}
-              onChange={(e) => setStudentInfo({ ...studentInfo, email: e.target.value })}
+              onChange={(e) =>
+                setStudentInfo({ ...studentInfo, email: e.target.value })
+              }
               className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
             />
             <Button
               onClick={handleStartQuiz}
-              className="w-full mt-4 bg-blue-600 dark:bg-blue-700 hover:scale-105 transition-all"
+              className="w-full mt-4 bg-blue-600 dark:bg-blue-700 hover:scale-105 transition-all dark:text-white"
             >
               Start Quiz
             </Button>
@@ -150,50 +144,71 @@ export default function QuizPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl font-extrabold mb-6"
+            className="text-3xl sm:text-4xl font-extrabold mb-10 text-center text-gray-900 dark:text-gray-100"
           >
             Take the Quiz
           </motion.h2>
-          {dummyQuestions.map((q, index) => (
-            <motion.div
-              key={q.id}
-              className="mb-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-lg"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-            >
-              <p className="font-semibold text-lg text-gray-900 dark:text-gray-100">
-                {index + 1}. {q.question}
-              </p>
-              <div className="mt-4 space-y-2">
-                {q.options.map((option, idx) => (
-                  <motion.div key={idx} whileTap={{ scale: 0.95 }}>
-                    <Button
-                      variant={answers[q.id] === idx ? "default" : "outline"}
-                      onClick={() => handleOptionSelect(q.id, idx)}
-                      className={`w-full transition-all hover:scale-105 ${
-                        answers[q.id] === idx
-                          ? "bg-blue-500 text-white dark:bg-blue-700"
-                          : "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-100"
-                      }`}
-                    >
-                      {option}
-                    </Button>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+
+          <div className="w-full flex flex-col items-center px-6">
+            {questions.map((q, index) => (
+              <motion.div
+                key={q.id}
+                className="mb-8 p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full sm:w-4/5 md:w-3/4 lg:w-3/4 xl:w-2/3 border border-gray-200 dark:border-gray-700"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+              >
+                {/* Question */}
+                <p className="font-semibold text-2xl sm:text-2xl md:text-2xl text-gray-900 dark:text-gray-100 leading-relaxed">
+                  {index + 1}. {q.text}
+                </p>
+
+                {/* Options Container */}
+<div className="mt-6 flex flex-col gap-4 w-full">
+  {q.options.map((option, idx) => (
+    <motion.div 
+      key={option.id} 
+      whileTap={{ scale: 0.97 }} 
+      className="w-full min-h-[50px] sm:min-h-[auto] flex items-center"
+    >
+      <Button
+        variant={answers[q.id] === idx ? "default" : "outline"}
+        onClick={() => handleOptionSelect(q.id, idx)}
+        className={`w-full h-full py-4 px-6 text-md text-left rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm
+          hover:bg-blue-500 hover:text-gray-200 dark:hover:bg-blue-500 transition-all break-words whitespace-normal
+          ${
+            answers[q.id] === idx
+              ? "bg-blue-500 text-white dark:bg-blue-600"
+              : "bg-gray-100 text-gray-900 dark:bg-gray-500 dark:text-white"
+          }`}
+      >
+        {option.text}
+      </Button>
+    </motion.div>
+  ))}
+</div>
+
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Submit Button with Loader */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
+            className="mt-4"
           >
             <Button
               onClick={handleSubmit}
-              className="mt-6 px-6 py-3 text-lg font-semibold bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-700 hover:scale-105 transition-all shadow-lg"
+              disabled={isSubmitting} // Disable button while submitting
+              className={`px-16 py-8 text-xl font-semibold transition-all shadow-md rounded-lg ${
+                isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-700"
+              }`}
             >
-              Submit
+              {isSubmitting ? "Generating your report..." : "Submit"}
             </Button>
           </motion.div>
         </>

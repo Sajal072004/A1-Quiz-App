@@ -15,7 +15,7 @@ export default function LandingPage() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white dark:text-gray-200 drop-shadow-lg px-4"
+        className="text-5xl sm:text-5xl md:text-6xl font-extrabold text-white dark:text-gray-200 drop-shadow-lg px-4"
       >
         Discover Your Learning Style!
       </motion.h1>
@@ -27,7 +27,7 @@ export default function LandingPage() {
         transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
         className="text-base sm:text-lg md:text-xl mt-4 mb-6 max-w-3xl text-white/90 dark:text-gray-300 px-4"
       >
-        Take the quiz to find out whether you're a{" "}
+        Take the quiz to find out whether you&apos;re a{" "}
         <span className="font-semibold">Visual</span>,{" "}
         <span className="font-semibold">Auditory</span>,{" "}
         <span className="font-semibold">Reading/Writing</span>, or{" "}
@@ -41,7 +41,7 @@ export default function LandingPage() {
         transition={{ delay: 0.6, duration: 0.5, ease: "easeOut" }}
       >
         <Button
-          className="px-6 py-3 rounded-lg text-lg font-semibold transition-all shadow-lg bg-blue-600 text-white dark:bg-purple-600 dark:text-white hover:bg-blue-700 dark:hover:bg-purple-700 hover:shadow-xl dark:hover:shadow-purple-500/50 hover:scale-105 active:scale-95"
+          className="px-8 py-8 rounded-lg text-lg font-semibold transition-all shadow-lg bg-blue-600 text-white dark:bg-purple-600 dark:text-white hover:bg-blue-700 dark:hover:bg-purple-700 hover:shadow-xl dark:hover:shadow-purple-500/50 hover:scale-105 active:scale-95"
           onClick={() => router.push("/quiz")}
         >
           Start Quiz
