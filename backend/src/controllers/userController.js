@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 // Create a new user
 export const createUser = async (req, res) => {
   try {
-    const { name, email, class: studentClass } = req.body;
+    const { name, email, class: studentClass, phone } = req.body;
 
     let user = await prisma.user.findUnique({
       where: { email },
@@ -13,7 +13,7 @@ export const createUser = async (req, res) => {
 
     if (!user) {
       user = await prisma.user.create({
-        data: { name, email, class: studentClass },
+        data: { name, email, class: studentClass, phone },
       });
     }
 

@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    // Save referral to database
+    
     const referral = await prisma.referral.create({
       data: { name, phone },
     });
@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error("Error saving referral:", error);
     if (error.code === "P2002") {
-      return res.status(409).json({ error: "This phone number is already referred." });
+      return res.status(201).json({ message: "Referral already exists" });
     }
     res.status(500).json({ error: "Internal Server Error" });
   }

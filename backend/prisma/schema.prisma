@@ -12,6 +12,7 @@ model User {
   name  String
   email String  @unique
   class String
+  phone String 
   results Result[]
 }
 

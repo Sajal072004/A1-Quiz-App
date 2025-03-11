@@ -21,6 +21,7 @@ export default function QuizPage() {
     name: "",
     class: "",
     email: "",
+    phone: "",
   });
   const [answers, setAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -44,7 +45,10 @@ export default function QuizPage() {
   }, []);
 
   const handleStartQuiz = () => {
-    if (!studentInfo.name || !studentInfo.class || !studentInfo.email) {
+    if (
+      (!studentInfo.name || !studentInfo.class || !studentInfo.email,
+      !studentInfo.phone)
+    ) {
       alert("Please fill in all details!");
       return;
     }
@@ -65,14 +69,12 @@ export default function QuizPage() {
       if (Object.keys(answers).length !== questions.length) {
         alert("Please answer all questions before submitting.");
         return;
-      } 
-      
+      }
+
       if (!friendInfo.name || !friendInfo.phone) {
         alert("Please enter your friend's details before submitting.");
         return;
       }
-
-
 
       setIsSubmitting(true); // Activate Loader
 
@@ -143,6 +145,15 @@ export default function QuizPage() {
               }
               className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
             />
+            <Input
+              type="text"
+              placeholder="Phone Number"
+              value={studentInfo.phone}
+              onChange={(e) =>
+                setStudentInfo({ ...studentInfo, phone: e.target.value })
+              }
+              className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
+            />
             <Button
               onClick={handleStartQuiz}
               className="w-full mt-4 bg-blue-600 dark:bg-blue-700 hover:scale-105 transition-all dark:text-white"
@@ -204,11 +215,35 @@ export default function QuizPage() {
             ))}
           </div>
 
-           {/* Refer a Friend Section */}
-           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.6 }} className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mt-6">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Do you think any of your friends would benefit from this? Enter their details:</h3>
-            <Input type="text" placeholder="Friend's Name" className="text-black dark:text-white" value={friendInfo.name} onChange={(e) => setFriendInfo({ ...friendInfo, name: e.target.value })} />
-            <Input type="tel" placeholder="Friend's Phone Number" value={friendInfo.phone} onChange={(e) => setFriendInfo({ ...friendInfo, phone: e.target.value })} className="mt-3" />
+          {/* Refer a Friend Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mt-6"
+          >
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
+              Do you think any of your friends would benefit from this? Enter
+              their details:
+            </h3>
+            <Input
+              type="text"
+              className="text-black dark:text-white"
+              placeholder="Friend's Name"
+              value={friendInfo.name}
+              onChange={(e) =>
+                setFriendInfo({ ...friendInfo, name: e.target.value })
+              }
+            />
+            <Input
+              type="tel"
+              className="text-black dark:text-white mt-3"
+              placeholder="Friend's Phone Number"
+              value={friendInfo.phone}
+              onChange={(e) =>
+                setFriendInfo({ ...friendInfo, phone: e.target.value })
+              }
+            />
           </motion.div>
 
           {/* Submit Button with Loader */}
