@@ -65,7 +65,7 @@ export default function ResultPage() {
             {/* 🏆 Learning Type */}
            <h1 className="mt-4"> <span className="text-4xl font-extrabold text-gray-800 dark:text-white">You are a</span>  
            <motion.span className=" ml-2 text-4xl  text-gray-900 dark:text-gray-100 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent dark:text-transparent bg-clip-text mt-6 font-extrabold">
-            &quot;{type} Learner&quot;
+            {type} Learner
             </motion.span></h1> 
 
             {/* 🔍 Specialty */}
