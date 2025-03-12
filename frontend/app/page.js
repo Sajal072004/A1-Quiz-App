@@ -21,7 +21,7 @@ export default function LandingPage() {
       </motion.h1>
 
       {/* Animated Description */}
-      <motion.p
+      {/* <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
@@ -32,7 +32,7 @@ export default function LandingPage() {
         <span className="font-semibold">Auditory</span>,{" "}
         <span className="font-semibold">Reading/Writing</span>, or{" "}
         <span className="font-semibold">Kinesthetic</span> learner.
-      </motion.p>
+      </motion.p> */}
 
       {/* Animated Button with Improved Contrast */}
       <motion.div
