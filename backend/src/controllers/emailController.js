@@ -11,6 +11,8 @@ export const sendEmail = async (req, res) => {
       return res.status(400).json({ success: false, error: "Missing required fields" });
     }
 
+    console.log("sending email");
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -27,6 +29,8 @@ export const sendEmail = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
+
+    console.log("email send successfully");
 
     return res.json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
