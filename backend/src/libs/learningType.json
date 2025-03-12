@@ -7,7 +7,8 @@
       "Use mind maps to organize your thoughts.",
       "Highlight important information in different colors.",
       "Watch educational videos and tutorials."
-    ]
+    ],
+    "certificate":"certificate.pdf"
   },
   "Auditory": {
     "title": "Auditory Learner",
@@ -17,7 +18,8 @@
       "Read aloud while studying.",
       "Engage in group discussions.",
       "Listen to podcasts and audiobooks."
-    ]
+    ],
+    "certificate":"certificate.pdf"
   },
   "Reading/Writing": {
     "title": "Reading/Writing Learner",
@@ -27,7 +29,8 @@
       "Take detailed notes during lectures.",
       "Summarize key points in your own words.",
       "Create lists and structured outlines."
-    ]
+    ],
+    "certificate":"certificate.pdf"
   },
   "Kinesthetic": {
     "title": "Kinesthetic Learner",
@@ -37,6 +40,7 @@
       "Engage in practical exercises and experiments.",
       "Use physical objects to represent concepts.",
       "Take frequent breaks and move while studying."
-    ]
+    ],
+    "certificate":"certificate.pdf"
   }
 }

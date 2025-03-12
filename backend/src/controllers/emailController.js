@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { PDFDocument, rgb } from "pdf-lib";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -14,17 +14,27 @@ const learningData = JSON.parse(
   readFileSync(path.join(__dirname, "../libs/learningType.json"), "utf-8")
 );
 
-// Function to modify the PDF
-const generateCertificatePDF = async (name) => {
-  const templatePath = path.join(__dirname, "../templates/certificate.pdf");
+// Function to modify the PDF based on learning type
+const generateCertificatePDF = async (name, type) => {
+  const templatePath = path.join(__dirname, `../templates/${learningData[type].certificate}`);
 
-  // Load existing certificate template
+  if (!existsSync(templatePath)) {
+    throw new Error(`Certificate template not found for type: ${type}`);
+  }
+
+  // Ensure output directory exists
+  const outputDir = path.join(__dirname, "../generated");
+  if (!existsSync(outputDir)) {
+    mkdirSync(outputDir, { recursive: true });
+  }
+
+  // Load the selected certificate template
   const pdfBytes = readFileSync(templatePath);
   const pdfDoc = await PDFDocument.load(pdfBytes);
   const pages = pdfDoc.getPages();
   const firstPage = pages[0];
 
-  // Add name & date to the PDF
+  // Add name & date dynamically
   firstPage.drawText(name, {
     x: 250,
     y: 300,
@@ -41,7 +51,7 @@ const generateCertificatePDF = async (name) => {
 
   // Save modified PDF
   const newPdfBytes = await pdfDoc.save();
-  const outputPath = path.join(__dirname, `../generated/${name}_certificate.pdf`);
+  const outputPath = path.join(outputDir, `${learningData[type].certificate}`);
   writeFileSync(outputPath, newPdfBytes);
 
   return outputPath;
@@ -57,7 +67,7 @@ export const sendEmail = async (req, res) => {
     }
 
     console.log("Generating PDF...");
-    const pdfPath = await generateCertificatePDF(name);
+    const pdfPath = await generateCertificatePDF(name, type);
 
     console.log("Sending email...");
 
