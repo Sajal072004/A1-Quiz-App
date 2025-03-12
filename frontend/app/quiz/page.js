@@ -254,8 +254,8 @@ export default function QuizPage() {
             className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mt-6"
           >
             <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Do you think any of your friends would benefit from this? Enter
-              their details:
+              Name a friend of your class who can benefit from this quiz.
+              His Whatsapp Number
             </h3>
             <Input
               type="text"
