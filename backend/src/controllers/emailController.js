@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { readFileSync, writeFileSync, existsSync, unlinkSync } from "fs";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import path from "path";
 import { fileURLToPath } from "url";
 import cloudinary from "cloudinary";
@@ -36,9 +36,30 @@ const generateCertificatePDF = async (name, type) => {
   const pages = pdfDoc.getPages();
   const firstPage = pages[0];
 
-  // Add name & date dynamically
-  firstPage.drawText(name, { x: 250, y: 300, size: 30, color: rgb(0, 0, 0) });
-  firstPage.drawText(new Date().toLocaleDateString(), { x: 450, y: 270, size: 18, color: rgb(0.5, 0.5, 0.5) });
+  // Define exact positions based on image analysis
+  const nameX = 250; // X-coordinate for name
+  const nameY = 403; // Y-coordinate for name
+  const dateX = 120; // X-coordinate for date
+  const dateY = 83; // Y-coordinate for date
+
+  // Add name dynamically
+  firstPage.drawText(name, {
+    x: nameX,
+    y: nameY,
+    size: 35,
+    color: rgb(8 / 255, 82 / 255, 81 / 255), // Converted to range 0-1
+    font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+});
+
+// Add date dynamically
+firstPage.drawText(new Date().toLocaleDateString(), {
+    x: dateX,
+    y: dateY,
+    size: 18,
+    color: rgb(0 / 255, 254 / 255, 254 / 255), // Cyan color in 0-1 range
+    font: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
+});
+
 
   // Save modified PDF to temporary file
   const newPdfBytes = await pdfDoc.save();
@@ -58,6 +79,7 @@ const generateCertificatePDF = async (name, type) => {
 
   return uploadResponse.secure_url; // Cloudinary PDF URL
 };
+
 
 // Send Email Function (Now uses Cloudinary URL)
 export const sendEmail = async (req, res) => {
