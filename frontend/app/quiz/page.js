@@ -133,59 +133,66 @@ export default function QuizPage() {
     <div className="flex flex-col items-center min-h-screen w-screen p-6 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 dark:from-gray-900 dark:via-gray-800 dark:to-black text-white overflow-hidden">
       {step === 1 ? (
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md text-center mt-48"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-            Enter Your Details
-          </h2>
-          <div className="space-y-4">
-            <Input
-              type="text"
-              placeholder="Full Name"
-              value={studentInfo.name}
-              onChange={(e) =>
-                setStudentInfo({ ...studentInfo, name: e.target.value })
-              }
-              className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
-            />
-            <Input
-              type="text"
-              placeholder="Class"
-              value={studentInfo.class}
-              onChange={(e) =>
-                setStudentInfo({ ...studentInfo, class: e.target.value })
-              }
-              className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
-            />
-            <Input
-              type="email"
-              placeholder="Email"
-              value={studentInfo.email}
-              onChange={(e) =>
-                setStudentInfo({ ...studentInfo, email: e.target.value })
-              }
-              className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
-            />
-            <Input
-              type="text"
-              placeholder="Phone Number"
-              value={studentInfo.phone}
-              onChange={(e) =>
-                setStudentInfo({ ...studentInfo, phone: e.target.value })
-              }
-              className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
-            />
-            <Button
-              onClick={handleStartQuiz}
-              className="w-full mt-4 bg-blue-600 dark:bg-blue-700 hover:scale-105 transition-all dark:text-white"
-            >
-              Start Quiz
-            </Button>
-          </div>
-        </motion.div>
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md text-center mt-36"
+      >
+        {/* Alert Message */}
+        <div className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 p-3 rounded-md mb-4 text-sm font-medium">
+          Enter a valid email address as your certificate and report will be sent there.
+        </div>
+      
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          Enter Your Details
+        </h2>
+      
+        <div className="space-y-4">
+          <Input
+            type="text"
+            placeholder="Full Name"
+            value={studentInfo.name}
+            onChange={(e) =>
+              setStudentInfo({ ...studentInfo, name: e.target.value })
+            }
+            className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
+          />
+          <Input
+            type="text"
+            placeholder="Class"
+            value={studentInfo.class}
+            onChange={(e) =>
+              setStudentInfo({ ...studentInfo, class: e.target.value })
+            }
+            className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
+          />
+          <Input
+            type="email"
+            placeholder="Email"
+            value={studentInfo.email}
+            onChange={(e) =>
+              setStudentInfo({ ...studentInfo, email: e.target.value })
+            }
+            className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
+          />
+          <Input
+            type="text"
+            placeholder="Phone Number"
+            value={studentInfo.phone}
+            onChange={(e) =>
+              setStudentInfo({ ...studentInfo, phone: e.target.value })
+            }
+            className="text-gray-900 dark:text-gray-100 dark:bg-gray-800"
+          />
+          <Button
+            onClick={handleStartQuiz}
+            className="w-full mt-4 bg-blue-600 dark:bg-blue-700 hover:scale-105 transition-all dark:text-white"
+          >
+            Start Quiz
+          </Button>
+        </div>
+      </motion.div>
+      
       ) : (
         <>
           <motion.h2
