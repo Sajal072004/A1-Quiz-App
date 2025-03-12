@@ -47,15 +47,27 @@ export default function QuizPage() {
   }, []);
 
   const handleStartQuiz = () => {
-    if (
-      (!studentInfo.name || !studentInfo.class || !studentInfo.email,
-      !studentInfo.phone)
-    ) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
+    const phoneRegex = /^\d{10}$/; // Ensures phone number is exactly 10 digits
+  
+    if (!studentInfo.name || !studentInfo.class || !studentInfo.email || !studentInfo.phone) {
       alert("Please fill in all details!");
       return;
     }
+  
+    if (!emailRegex.test(studentInfo.email)) {
+      alert("Please enter a valid email address!");
+      return;
+    }
+  
+    if (!phoneRegex.test(studentInfo.phone)) {
+      alert("Please enter a valid 10-digit phone number!");
+      return;
+    }
+  
     setStep(2);
   };
+  
 
   const handleOptionSelect = (questionId, idx) => {
     setAnswers((prev) => ({
