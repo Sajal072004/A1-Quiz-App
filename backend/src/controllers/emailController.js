@@ -37,10 +37,13 @@ const generateCertificatePDF = async (name, type) => {
   const firstPage = pages[0];
 
   // Define exact positions based on image analysis
-  const nameX = 250; // X-coordinate for name
-  const nameY = 403; // Y-coordinate for name
+  const nameX = 200; // X-coordinate for name
+  const nameY = 354; // Y-coordinate for name
   const dateX = 120; // X-coordinate for date
-  const dateY = 83; // Y-coordinate for date
+  const dateY = 34; // Y-coordinate for date
+
+  const typeX = 200;
+  const typeY = 191;
 
   // Add name dynamically
   firstPage.drawText(name, {
@@ -62,8 +65,16 @@ firstPage.drawText(formattedDate, {
     x: dateX,
     y: dateY,
     size: 18,
-    color: rgb(0 / 255, 254 / 255, 254 / 255), // Cyan color in 0-1 range
+    color: rgb(30 / 255, 254 / 255, 254 / 255), // Cyan color in 0-1 range
     font: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
+});
+ 
+firstPage.drawText(learningData[type].title, {
+  x: typeX,
+  y: typeY,
+  size: 32,
+  color: rgb(8 / 255, 82 / 255, 81 / 255), // Cyan color in 0-1 range
+  font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
 });
 
 
