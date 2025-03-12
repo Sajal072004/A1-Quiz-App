@@ -14,6 +14,9 @@ const optionMapping = {
   3: "Kinesthetic",
 };
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
+const phoneRegex = /^\d{10}$/; // Ensures phone number is exactly 10 digits
+
 export default function QuizPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -47,8 +50,7 @@ export default function QuizPage() {
   }, []);
 
   const handleStartQuiz = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
-    const phoneRegex = /^\d{10}$/; // Ensures phone number is exactly 10 digits
+    
   
     if (!studentInfo.name || !studentInfo.class || !studentInfo.email || !studentInfo.phone) {
       alert("Please fill in all details!");
@@ -87,6 +89,11 @@ export default function QuizPage() {
 
       if (!friendInfo.name || !friendInfo.phone) {
         alert("Please enter your friend's details before submitting.");
+        return;
+      }
+
+      if (!phoneRegex.test(friendInfo.phone)) {
+        alert("Please enter a valid 10-digit phone number!");
         return;
       }
 
