@@ -14,37 +14,37 @@
   "Auditory": {
     "title": "Auditory Learner",
     "badgeUrl": "/badges/auditory1.png",
-    "speciality": "You process and retain information best when you hear it rather than just reading or seeing it. You learn effectively through spoken explanations, discussions, and lectures. Conversations, storytelling, and verbal repetition help strengthen your understanding. You may prefer listening to instructions rather than reading them and often benefit from explaining concepts aloud.",
+    "speciality": "You process and retain information best when you hear it rather than just reading or seeing it. You learn effectively through spoken explanations, discussions, and lectures.You may prefer listening to instructions rather than reading them and often benefit from explaining concepts aloud.",
     "suggestions": [
-      "Listen to audiobooks, podcasts, and recorded lectures instead of or in addition to reading. Hearing information multiple times can help reinforce your memory.",
+      "Listen to audiobooks, podcasts, and recorded lectures instead of or in addition to reading. ",
       "Engage in group discussions, debates, and Q&A sessions to process new concepts by explaining and hearing different viewpoints.",
       "Try reading your notes out loud or teaching someone else the material, as explaining things verbally strengthens your understanding.",
-      "Use rhymes, songs, or mnemonic devices to memorize information. Turning facts into lyrics or rhythms can make recall easier.",
-      "Participate in interactive learning experiences such as role-playing, storytelling, or verbally summarizing content to internalize information better."
+      "Use rhymes, songs, or mnemonic devices to memorize information.",
+      "Participate in interactive learning experiences such as role-playing, storytelling, or verbally summarizing content."
     ]
   },
   "Reading/Writing": {
     "title": "Echo Learner",
     "badgeUrl": "/badges/reading-writing1.png",
-    "speciality": "You have a strong preference for learning through words—both reading and writing. You absorb information effectively by reading detailed explanations, taking structured notes, and summarizing key points in your own words. Written information allows you to process and reflect on concepts at your own pace. You likely enjoy reading books, making lists, and researching topics in depth.",
+    "speciality": "You have a strong preference for learning through words—both reading and writing. You absorb information effectively by reading detailed explanations, taking structured notes, and summarizing key points in your own words.  You likely enjoy reading books, making lists, and researching topics in depth.",
     "suggestions": [
-      "Take detailed notes while studying, organizing them in a way that makes it easy for you to review later. Writing things down helps reinforce your memory.",
-      "Read textbooks, articles, and research papers to get in-depth knowledge about topics. Try summarizing each section in your own words to ensure understanding.",
-      "Write essays, blog posts, or journal entries to express and reinforce what you’ve learned. Writing forces you to structure your thoughts clearly.",
-      "Use lists, bullet points, and structured outlines to organize information efficiently. Breaking complex ideas into smaller sections makes them easier to grasp.",
-      "Re-read and rewrite key concepts multiple times to improve retention. Turning notes into summarized study guides or flashcards can be very helpful."
+      "Take detailed notes while studying, organizing them in a way that makes it easy for you to review later.",
+      "Read textbooks, articles, and research papers to get in-depth knowledge about topics.",
+      "Write essays, blog posts, or journal entries to express and reinforce what you’ve learned. ",
+      "Use lists, bullet points, and structured outlines to organize information efficiently. ",
+      "Re-read and rewrite key concepts multiple times to improve retention."
     ]
   },
   "Kinesthetic": {
     "title": "Action Learner",
     "badgeUrl": "/badges/kinesthetic1.png",
-    "speciality": "You learn best through hands-on experiences and active participation. Sitting still for long periods can make learning difficult, so movement and practical engagement help you retain information. You understand concepts more effectively when you physically interact with them, whether through experiments, role-playing, or using tangible materials. You benefit from real-world application rather than just theoretical study.",
+    "speciality": "You learn best through hands-on experiences and active participation. Sitting still for long periods can make learning difficult, so movement and practical engagement help you retain information.You benefit from real-world application rather than just theoretical study.",
     "suggestions": [
-      "Engage in hands-on activities, practical experiments, and real-world applications to reinforce learning. Doing something physically helps solidify concepts in your mind.",
-      "Take frequent movement breaks while studying to stay focused and avoid feeling restless. Stretching or walking around can help improve concentration.",
-      "Use physical objects, models, or props to represent abstract ideas. Manipulating objects can provide a tangible way to grasp difficult concepts.",
-      "Act out or simulate scenarios to bring learning to life. This can be especially helpful for subjects like history, science, or public speaking.",
-      "Practice writing and drawing on whiteboards, building models, or engaging in interactive learning games to make studying more engaging and effective."
+      "Engage in hands-on activities, practical experiments, and real-world applications to reinforce learning.",
+      "Take frequent movement breaks while studying to stay focused and avoid feeling restless.",
+      "Use physical objects, models, or props to represent abstract ideas. ",
+      "Act out or simulate scenarios to bring learning to life.",
+      "Practice writing and drawing on whiteboards, building models, or engaging in interactive learning games."
     ]
   }
 }
