@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import resultRoutes from "./routes/resultRoutes.js";
 import referralRoutes from './routes/referralRoutes.js';
+import emailRoutes from "./routes/emailRoutes.js"; 
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/results", resultRoutes);
 app.use("/api/referrals", referralRoutes);
+app.use("/api/email", emailRoutes); // ✅ Register Email API
 
 app.use("/", (req, res) => {
   res.send("Server is running.");

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react"; // ✅ Import Suspense
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,17 +11,70 @@ import learningData from "../../lib/constants/learningType.json";
 
 export default function ResultPage() {
   return (
-    <Suspense fallback={<LoadingComponent />}> {/* ✅ Suspense boundary added */}
+    <Suspense fallback={<LoadingComponent />}>
       <ResultContent />
     </Suspense>
   );
 }
 
-// ✅ Move searchParams logic inside a separate component
 function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const type = searchParams.get("type") || "Visual";
+  const userId = searchParams.get("userId");
+
+  const [user, setUser] = useState(null);
+  const [emailSent, setEmailSent] = useState(false);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    
+
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${userId}`);
+        if (!response.ok) throw new Error("Failed to fetch user data");
+
+        const userData = await response.json();
+        setUser(userData); // Store user info
+        localStorage.setItem("userEmail", userData.email); // Store email for later use
+
+        // Send email only if not already sent
+        if (!emailSent) {
+          await sendEmail(userData);
+          setEmailSent(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    const sendEmail = async (userData) => {
+      try {
+        const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: userData.name,
+            email: userData.email,
+            type: type, // Use type from searchParams
+          }),
+        });
+
+        if (!emailResponse.ok) throw new Error("Failed to send email");
+
+        console.log("Email sent successfully!");
+      } catch (error) {
+        console.error("Failed to send email:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [userId, emailSent, type]);
+
   const result = learningData[type] || learningData["Visual"];
 
   return (
@@ -54,8 +107,8 @@ function ResultContent() {
         <Card className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl border border-gray-300 dark:border-gray-800 relative overflow-hidden text-center">
           <CardHeader className="text-center py-0">
             <CardTitle className="text-4xl font-extrabold text-gray-800 dark:text-white">
-              🎉YAY🎉
-              <div className=" ml-2 text-4xl bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
+              🎉 Congratulations, {user ? user.name : "Student"}! 🎉
+              <div className="ml-2 text-4xl bg-red-600 dark:text-red-500 text-transparent bg-clip-text mt-6 font-extrabold">
                 {result.title}!!
               </div>
             </CardTitle>
@@ -104,7 +157,7 @@ function ResultContent() {
             {/* 🔄 Restart Quiz Button */}
             <Button
               className="mt-10 px-7 py-6 text-lg font-medium bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-lg hover:opacity-90 transition-all duration-300"
-              onClick={() => router.push("/")} // ✅ Ensuring Next.js navigation works
+              onClick={() => router.push("/")}
             >
               Take the Quiz Again
             </Button>

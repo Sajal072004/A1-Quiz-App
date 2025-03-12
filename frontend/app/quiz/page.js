@@ -120,7 +120,7 @@ export default function QuizPage() {
         { headers: { "Content-Type": "application/json" } }
       );
       setFriendInfo({ name: "", phone: "" });
-      router.push(`/result?type=${resultRes.data.type}`);
+      router.push(`/result?type=${resultRes.data.type}&userId=${userId}`);
     } catch (error) {
       console.error("Error submitting quiz:", error);
       alert("Failed to submit quiz. Try again!");
