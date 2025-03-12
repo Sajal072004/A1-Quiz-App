@@ -1,6 +1,17 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import learningData from "../libs/learningType.json" assert { type: "json" };
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
+
+dotenv.config();
+
+// Fix for JSON import issue in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const learningData = JSON.parse(
+  readFileSync(path.join(__dirname, "../libs/learningType.json"), "utf-8")
+);
 
 dotenv.config();
 
