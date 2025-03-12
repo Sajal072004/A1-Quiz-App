@@ -1,7 +1,7 @@
 {
   "Visual": {
     "title": "Visual Learner",
-    "badgeUrl": "../libs/visual1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/v1741759029/test1_hxakmk.png",
     "speciality": "You learn best through images, charts, and diagrams.",
     "suggestions": [
       "Use mind maps to organize your thoughts.",
@@ -11,7 +11,7 @@
   },
   "Auditory": {
     "title": "Auditory Learner",
-    "badgeUrl": "../libs/auditory1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/v1741759084/auditory1_puhkl0.png",
     "speciality": "You retain information better through listening and speaking.",
     "suggestions": [
       "Read aloud while studying.",
@@ -21,7 +21,7 @@
   },
   "Reading/Writing": {
     "title": "Reading/Writing Learner",
-    "badgeUrl": "../libs/reading-writing1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/v1741759114/reading-writing1_snbgjh.png",
     "speciality": "You excel when reading and writing notes.",
     "suggestions": [
       "Take detailed notes during lectures.",
@@ -31,7 +31,7 @@
   },
   "Kinesthetic": {
     "title": "Kinesthetic Learner",
-    "badgeUrl": "../libs/kinesthetic1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/v1741759155/kinesthetic1_a0cxln.png",
     "speciality": "You understand concepts best through hands-on activities.",
     "suggestions": [
       "Engage in practical exercises and experiments.",
