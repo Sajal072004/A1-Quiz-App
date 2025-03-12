@@ -268,14 +268,14 @@ export default function QuizPage() {
               }
             />
 
-            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 mt-4">
               His Whatsapp Number
             </h3>
 
             <Input
               type="tel"
               className="text-black dark:text-white mt-3"
-              placeholder="Friend's Phone Number"
+              placeholder="Friend's Whatsapp Number"
               value={friendInfo.phone}
               onChange={(e) =>
                 setFriendInfo({ ...friendInfo, phone: e.target.value })
