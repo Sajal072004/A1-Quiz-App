@@ -40,26 +40,45 @@ export const sendEmail = async (req, res) => {
       to: email,
       subject: "🌟 Your Learning Type Report is Ready! 🌟",
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-          <h2 style="text-align: center; color: #4A90E2;">🎉 Congratulations, ${name}! 🎉</h2>
-          <p style="text-align: center; font-size: 18px;">Based on your quiz results, you are a <b style="color: #E74C3C;">${title}</b>!</p>
-
-          <div style="text-align: center; margin: 20px 0;">
-            <img src="${badgeUrl}" alt="Badge" style="width: 120px; height: 120px; border-radius: 50%; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background: #f8f9fc; padding: 20px; border-radius: 10px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);">
+          
+          <!-- Header -->
+          <div style="text-align: center; background: linear-gradient(135deg, #4A90E2, #2ECC71); padding: 15px; border-radius: 8px;">
+            <h2 style="color: white; margin: 0;">🎉 Congratulations, ${name}! 🎉</h2>
+            <p style="color: white; font-size: 18px;">You are a <b style="color: #FFD700;">${title}</b> Learner! 🚀</p>
           </div>
 
-          <p style="font-size: 16px;"><b>📌 Specialty:</b> ${speciality}</p>
+          <!-- Badge -->
+          <div style="text-align: center; margin: 20px 0;">
+            <img src="${badgeUrl}" alt="Badge" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #FFD700; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+          </div>
 
-          <h3 style="color: #2ECC71; margin-top: 20px;">💡 How to Improve:</h3>
-          <ul style="padding-left: 20px;">
-            ${suggestions.map(suggestion => `<li style="margin: 10px 0;">✅ ${suggestion}</li>`).join("")}
+          <!-- Specialty Section -->
+          <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+            <h3 style="color: #2E86C1; text-align: center;">📌 Your Specialty</h3>
+            <p style="font-size: 16px; text-align: center; color: #555;">"${speciality}"</p>
+          </div>
+
+          <!-- Suggestions -->
+          <h3 style="color: #27AE60; text-align: center; margin-top: 25px;">💡 How to Improve:</h3>
+          <ul style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); list-style: none;">
+            ${suggestions
+              .map(
+                (suggestion) => `<li style="margin: 10px 0; font-size: 16px; color: #333;">✅ ${suggestion}</li>`
+              )
+              .join("")}
           </ul>
 
-          <p style="text-align: center; margin-top: 30px;">
-            <i>Keep learning and growing! 🚀</i>
+          <!-- Closing Message -->
+          <p style="text-align: center; margin-top: 30px; font-size: 16px;">
+            <i>Keep learning and growing! 📚</i>
           </p>
 
-          <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #777;">Best Regards,<br>📚 Learning Quiz Team</p>
+          <!-- Footer -->
+          <div style="text-align: center; padding: 10px; background: #2C3E50; color: white; border-radius: 8px; margin-top: 20px;">
+            <p style="margin: 0; font-size: 14px;">Best Regards,<br><b>A1 Academy Team</b> | <a href="#" style="color: #FFD700; text-decoration: none;">Visit Us</a></p>
+          </div>
+
         </div>
       `,
     };
