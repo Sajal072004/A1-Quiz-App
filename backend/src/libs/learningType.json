@@ -1,0 +1,42 @@
+{
+  "Visual": {
+    "title": "Visual Learner",
+    "badgeUrl": "../libs/visual1.png",
+    "speciality": "You learn best through images, charts, and diagrams.",
+    "suggestions": [
+      "Use mind maps to organize your thoughts.",
+      "Highlight important information in different colors.",
+      "Watch educational videos and tutorials."
+    ]
+  },
+  "Auditory": {
+    "title": "Auditory Learner",
+    "badgeUrl": "../libs/auditory1.png",
+    "speciality": "You retain information better through listening and speaking.",
+    "suggestions": [
+      "Read aloud while studying.",
+      "Engage in group discussions.",
+      "Listen to podcasts and audiobooks."
+    ]
+  },
+  "Reading/Writing": {
+    "title": "Reading/Writing Learner",
+    "badgeUrl": "../libs/reading-writing1.png",
+    "speciality": "You excel when reading and writing notes.",
+    "suggestions": [
+      "Take detailed notes during lectures.",
+      "Summarize key points in your own words.",
+      "Create lists and structured outlines."
+    ]
+  },
+  "Kinesthetic": {
+    "title": "Kinesthetic Learner",
+    "badgeUrl": "../libs/kinesthetic1.png",
+    "speciality": "You understand concepts best through hands-on activities.",
+    "suggestions": [
+      "Engage in practical exercises and experiments.",
+      "Use physical objects to represent concepts.",
+      "Take frequent breaks and move while studying."
+    ]
+  }
+}
