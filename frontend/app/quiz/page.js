@@ -208,7 +208,7 @@ export default function QuizPage() {
             {questions.map((q, index) => (
               <motion.div
                 key={q.id}
-                className="mb-8 p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full sm:w-4/5 md:w-3/4 lg:w-3/4 xl:w-2/3 border border-gray-200 dark:border-gray-700"
+                className="mb-8 p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full sm:w-8/9 md:w-3/4 lg:w-3/4 xl:w-2/3 border border-gray-200 dark:border-gray-700"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
