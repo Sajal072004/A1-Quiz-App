@@ -51,8 +51,14 @@ const generateCertificatePDF = async (name, type) => {
     font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
 });
 
+const formattedDate = new Date().toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+});
+
 // Add date dynamically
-firstPage.drawText(new Date().toLocaleDateString(), {
+firstPage.drawText(formattedDate, {
     x: dateX,
     y: dateY,
     size: 18,
