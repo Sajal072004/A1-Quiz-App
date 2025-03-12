@@ -19,7 +19,7 @@ const phoneRegex = /^\d{10}$/; // Ensures phone number is exactly 10 digits
 
 export default function QuizPage() {
   const router = useRouter();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [studentInfo, setStudentInfo] = useState({
     name: "",
     class: "",
