@@ -15,7 +15,7 @@ const app = express();
 
 // ✅ Configure CORS properly
 app.use(cors({
-  origin: "*",  // Allow frontend origin
+  origin: ["*" , "https://a1academy.vercel.app"],  // Allow frontend origin
   methods: "GET,POST,PUT,DELETE",
   credentials: true  // Allow cookies if needed
 }));
