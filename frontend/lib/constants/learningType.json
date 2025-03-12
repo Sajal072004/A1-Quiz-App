@@ -1,7 +1,7 @@
 {
   "Visual": {
     "title": "Mind Mapper",
-    "badgeUrl": "/badges/test1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741778397/visual1_fqqs6v.webp",
     "speciality": "You have a strong ability to understand and retain information by seeing it in a structured, graphical, or visually engaging format. You excel at learning through images, diagrams, charts, and videos.You often find it easier to remember what you see rather than what you hear.",
     "suggestions": [
       "Use mind maps, diagrams, and flowcharts to break down information into a structured, easy-to-understand format.",
@@ -13,7 +13,7 @@
   },
   "Auditory": {
     "title": "Auditory Learner",
-    "badgeUrl": "/badges/auditory1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741778415/auditory1_wgld9i.webp",
     "speciality": "You process and retain information best when you hear it rather than just reading or seeing it. You learn effectively through spoken explanations, discussions, and lectures.You may prefer listening to instructions rather than reading them and often benefit from explaining concepts aloud.",
     "suggestions": [
       "Listen to audiobooks, podcasts, and recorded lectures instead of or in addition to reading. ",
@@ -25,7 +25,7 @@
   },
   "Reading/Writing": {
     "title": "Echo Learner",
-    "badgeUrl": "/badges/reading-writing1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741778415/reading-writing1_haignc.webp",
     "speciality": "You have a strong preference for learning through words—both reading and writing. You absorb information effectively by reading detailed explanations, taking structured notes, and summarizing key points in your own words.  You likely enjoy reading books, making lists, and researching topics in depth.",
     "suggestions": [
       "Take detailed notes while studying, organizing them in a way that makes it easy for you to review later.",
@@ -37,7 +37,7 @@
   },
   "Kinesthetic": {
     "title": "Action Learner",
-    "badgeUrl": "/badges/kinesthetic1.png",
+    "badgeUrl": "https://res.cloudinary.com/dqc9zcx9l/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741778415/kinesthetic1_weoart.webp",
     "speciality": "You learn best through hands-on experiences and active participation. Sitting still for long periods can make learning difficult, so movement and practical engagement help you retain information.You benefit from real-world application rather than just theoretical study.",
     "suggestions": [
       "Engage in hands-on activities, practical experiments, and real-world applications to reinforce learning.",

@@ -1,8 +1,9 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
+import { readFileSync, writeFileSync } from "fs";
+import { PDFDocument, rgb } from "pdf-lib";
 import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -13,8 +14,40 @@ const learningData = JSON.parse(
   readFileSync(path.join(__dirname, "../libs/learningType.json"), "utf-8")
 );
 
-dotenv.config();
+// Function to modify the PDF
+const generateCertificatePDF = async (name) => {
+  const templatePath = path.join(__dirname, "../templates/certificate.pdf");
 
+  // Load existing certificate template
+  const pdfBytes = readFileSync(templatePath);
+  const pdfDoc = await PDFDocument.load(pdfBytes);
+  const pages = pdfDoc.getPages();
+  const firstPage = pages[0];
+
+  // Add name & date to the PDF
+  firstPage.drawText(name, {
+    x: 250,
+    y: 300,
+    size: 30,
+    color: rgb(0, 0, 0),
+  });
+
+  firstPage.drawText(new Date().toLocaleDateString(), {
+    x: 450,
+    y: 270,
+    size: 18,
+    color: rgb(0.5, 0.5, 0.5),
+  });
+
+  // Save modified PDF
+  const newPdfBytes = await pdfDoc.save();
+  const outputPath = path.join(__dirname, `../generated/${name}_certificate.pdf`);
+  writeFileSync(outputPath, newPdfBytes);
+
+  return outputPath;
+};
+
+// Send Email Function
 export const sendEmail = async (req, res) => {
   try {
     const { name, email, type } = req.body;
@@ -22,6 +55,9 @@ export const sendEmail = async (req, res) => {
     if (!name || !email || !type || !learningData[type]) {
       return res.status(400).json({ success: false, error: "Missing or invalid required fields" });
     }
+
+    console.log("Generating PDF...");
+    const pdfPath = await generateCertificatePDF(name);
 
     console.log("Sending email...");
 
@@ -38,7 +74,7 @@ export const sendEmail = async (req, res) => {
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
       to: email,
-      subject: "🌟 Your Learning Type Report is Ready! 🌟",
+      subject: "🎓 Your Personalized Certificate & Learning Report!",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background: #f8f9fc; padding: 20px; border-radius: 10px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);">
           
@@ -81,6 +117,12 @@ export const sendEmail = async (req, res) => {
 
         </div>
       `,
+      attachments: [
+        {
+          filename: `${name}_certificate.pdf`,
+          content: readFileSync(pdfPath),
+        },
+      ],
     };
 
     await transporter.sendMail(mailOptions);
