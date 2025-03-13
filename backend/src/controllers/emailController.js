@@ -112,6 +112,106 @@ export const sendEmail = async (req, res) => {
 
     console.log("Sending email...");
 
+    const emailText = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .badge-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 10px 0;
+    }
+    .speciality {
+      font-size: 18px;
+      color: #555;
+      margin: 10px 0;
+    }
+    .suggestions {
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: left;
+      margin: 15px 0;
+    }
+    .suggestions ul {
+      padding-left: 20px;
+    }
+    .certificate-btn {
+      display: inline-block;
+      background: #3498db;
+      color: #ffffff;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .footer {
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎉 Congratulations, {name}! 🎉</h1>
+
+    <p class="speciality">You have been identified as a <strong>{title}</strong>!</p>
+
+    <img src="{badgeUrl}" alt="Learning Badge" class="badge-img">
+
+    <p class="speciality">🌟 Speciality: {speciality}</p>
+
+    <div class="suggestions">
+      <h3>📌 Learning Suggestions:</h3>
+      <ul>
+        {suggestions}
+      </ul>
+    </div>
+
+    <a href="{pdfUrl}" class="certificate-btn">🏅 Download Your Certificate</a>
+
+    <p class="footer">Keep learning and growing! 🚀</p>
+  </div>
+
+</body>
+</html>
+`;
+
+
+const formattedEmailText = emailText
+  .replace("{name}", name)
+  .replace("{title}", learningData[type].title)
+  .replace("{speciality}", learningData[type].speciality)
+  .replace("{badgeUrl}", learningData[type].badgeUrl)
+  .replace("{suggestions}", learningData[type].suggestions.map((s) => `<li>${s}</li>`).join(""))
+  .replace("{pdfUrl}", pdfUrl);
+
+
+
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -124,7 +224,7 @@ export const sendEmail = async (req, res) => {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
       to: email,
       subject: "🎓 Your Personalized Certificate & Learning Report!",
-      text: `Congratulations ${name}! Your learning certificate is available at the following link: ${pdfUrl}`,
+      html: formattedEmailText,
     };
 
     await transporter.sendMail(mailOptions);
