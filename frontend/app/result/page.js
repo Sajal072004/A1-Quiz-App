@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Mail, Download, Share2 } from "lucide-react";
+import { Mail, Download, Share2, Copy } from "lucide-react";
 import Image from "next/image";
 import learningData from "../../lib/constants/learningType.json";
 import { WhatsappShareButton, TwitterShareButton } from "react-share";
@@ -17,6 +17,16 @@ export default function ResultPage() {
     </Suspense>
   );
 }
+
+const handleCopyToClipboard = (shareUrl) => {
+  const shareText = `I just got my learning certificate! 🎓  
+Check it out here: ${shareUrl}  
+#Learning #Certificate @a1academy_jbp`;
+
+  navigator.clipboard.writeText(shareText).then(() => {
+    alert("Text copied! Paste it on Instagram and tag @a1academy_jbp 🎉");
+  });
+};
 
 function ResultContent() {
   const searchParams = useSearchParams();
@@ -185,6 +195,14 @@ function ResultContent() {
                   Twitter
                 </Button>
               </TwitterShareButton>
+
+              <button
+      onClick={() => handleCopyToClipboard(shareUrl)}
+      className="px-6 py-3 bg-pink-500 text-white rounded-lg flex items-center"
+    >
+      <Copy className="w-5 h-5 mr-2" />
+      Copy & Share on Instagram
+    </button>
             </div>
           </CardContent>
         </Card>
@@ -197,3 +215,4 @@ function ResultContent() {
 function LoadingComponent() {
   return <div className="flex items-center justify-center min-h-screen">Loading results...</div>;
 }
+
