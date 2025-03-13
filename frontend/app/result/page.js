@@ -186,7 +186,8 @@ function ResultContent() {
   <div className="flex flex-wrap justify-center gap-4">
     
     {/* WhatsApp */}
-    <WhatsappShareButton url={shareUrl} title="Check out my learning certificate!">
+    <WhatsappShareButton url={shareUrl} title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
+    >
       <Button className="w-full sm:w-auto px-6 py-6 text-lg font-semibold bg-green-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-green-600 transition-all">
         <Share2 className="w-5 h-5 mr-1" />
         WhatsApp
@@ -194,7 +195,8 @@ function ResultContent() {
     </WhatsappShareButton>
 
     {/* Twitter */}
-    <TwitterShareButton url={shareUrl} title="I just got my learning certificate! 🎓">
+    <TwitterShareButton url={shareUrl} title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
+    >
       <Button className="w-full sm:w-auto px-6 py-6 mx-1 text-lg font-semibold bg-blue-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-blue-600 transition-all">
         <Share2 className="w-5 h-5" />
         Twitter
