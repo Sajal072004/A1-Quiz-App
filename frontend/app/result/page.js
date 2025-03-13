@@ -170,40 +170,48 @@ function ResultContent() {
             </motion.p>
 
             {/* 📜 Download & Share */}
-            <div className="flex flex-wrap gap-4 mt-8">
-              {/* 🏆 Download Certificate */}
-              <Button
-                className="px-6 py-3 text-lg font-medium bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition-all flex items-center"
-                onClick={() => window.open(pdfUrl, "_blank")}
-                disabled={!pdfUrl || loadingPdf}
-              >
-                <Download className="w-5 h-5 mr-2" />
-                {loadingPdf ? "Loading..." : "Download Certificate"}
-              </Button>
+<div className="mt-8 flex flex-wrap justify-center gap-4">
+  
+  {/* 🏆 Download Certificate */}
+  <Button
+    className="w-full sm:w-auto px-6 py-6 font-semibold text-lg bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all flex items-center justify-center"
+    onClick={() => window.open(pdfUrl, "_blank")}
+    disabled={!pdfUrl || loadingPdf}
+  >
+    <Download className="w-5 h-5 mr-1" />
+    {loadingPdf ? "Loading..." : "Download Certificate"}
+  </Button>
 
-              {/* 📤 Share Buttons */}
-              <WhatsappShareButton url={shareUrl} title="Check out my learning certificate!">
-                <Button className="px-6 py-3 bg-green-500 text-white rounded-lg flex items-center">
-                  <Share2 className="w-5 h-5 mr-2" />
-                  WhatsApp
-                </Button>
-              </WhatsappShareButton>
+  {/* 📤 Share Buttons */}
+  <div className="flex flex-wrap justify-center gap-4">
+    
+    {/* WhatsApp */}
+    <WhatsappShareButton url={shareUrl} title="Check out my learning certificate!">
+      <Button className="w-full sm:w-auto px-6 py-6 text-lg font-semibold bg-green-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-green-600 transition-all">
+        <Share2 className="w-5 h-5 mr-1" />
+        WhatsApp
+      </Button>
+    </WhatsappShareButton>
 
-              <TwitterShareButton url={shareUrl} title="I just got my learning certificate! 🎓">
-                <Button className="px-6 py-3 bg-blue-400 text-white rounded-lg flex items-center">
-                  <Share2 className="w-5 h-5 mr-2" />
-                  Twitter
-                </Button>
-              </TwitterShareButton>
+    {/* Twitter */}
+    <TwitterShareButton url={shareUrl} title="I just got my learning certificate! 🎓">
+      <Button className="w-full sm:w-auto px-6 py-6 mx-1 text-lg font-semibold bg-blue-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-blue-600 transition-all">
+        <Share2 className="w-5 h-5" />
+        Twitter
+      </Button>
+    </TwitterShareButton>
 
-              <button
+    {/* Instagram Copy & Share */}
+    <button
       onClick={() => handleCopyToClipboard(shareUrl)}
-      className="px-6 py-3 bg-pink-500 text-white rounded-lg flex items-center"
+      className="w-full sm:w-auto px-6 py-3 text-base font-semibold bg-pink-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-pink-600 transition-all"
     >
       <Copy className="w-5 h-5 mr-2" />
       Copy & Share on Instagram
     </button>
-            </div>
+  </div>
+</div>
+
           </CardContent>
         </Card>
       </motion.div>
