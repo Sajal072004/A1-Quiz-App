@@ -36,7 +36,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // ⏳ Schedule cron job to run every 20 minutes
-cron.schedule("*/20 * * * *", async () => {
+cron.schedule("*/14 * * * *", async () => {
   console.log("⏳ Running cron job: Fetching data from database...");
   try {
     const response = await axios.get("https://backend-906o.onrender.com"); // Change URL accordingly

@@ -55,7 +55,9 @@ function ResultContent() {
 
         // Fetch the certificate PDF URL from the API
         const pdfResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email?name=${encodeURIComponent(
+          `${
+            process.env.NEXT_PUBLIC_BACKEND_URL
+          }/api/email?name=${encodeURIComponent(
             userData.name
           )}&type=${encodeURIComponent(type)}`
         );
@@ -128,7 +130,9 @@ function ResultContent() {
         transition={{ duration: 0.8, delay: 0.3 }}
       >
         <Mail className="w-6 h-6 animate-bounce" />
-        <span className="text-lg font-semibold">Your report has been sent to your email!</span>
+        <span className="text-lg font-semibold">
+          Your report has been sent to your email!
+        </span>
       </motion.div>
 
       {/* 🎉 Certificate Card */}
@@ -162,58 +166,75 @@ function ResultContent() {
 
             {/* 🏆 Learning Type */}
             <h1 className="mt-4 text-4xl font-extrabold text-gray-800 dark:text-white">
-              You are a <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">{type} Learner</span>
+              You are a{" "}
+              <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+                {type} Learner
+              </span>
             </h1>
 
-            <motion.p className="mt-4 text-lg text-gray-700 dark:text-gray-300 text-center max-w-2xl leading-relaxed">
+            <motion.p className="mt-4 text-lg text-gray-700 dark:text-gray-300 text-left max-w-2xl leading-relaxed">
               {result.speciality}
             </motion.p>
 
+            {/* Suggestions Section */}
+            <h2 className="mt-12 mb-4 text-4xl font-semibold text-gray-800 dark:text-white">
+              Suggested Learning Strategies
+            </h2>
+
+            <ul className="mt-3 text-lg text-gray-700 dark:text-gray-300 text-left max-w-2xl list-disc list-inside">
+              {result.suggestions.map((suggestion, index) => (
+                <li key={suggestion} className="mt-2">
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+
             {/* 📜 Download & Share */}
-<div className="mt-8 flex flex-wrap justify-center gap-4">
-  
-  {/* 🏆 Download Certificate */}
-  <Button
-    className="w-full sm:w-auto px-6 py-6 font-semibold text-lg bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all flex items-center justify-center"
-    onClick={() => window.open(pdfUrl, "_blank")}
-    disabled={!pdfUrl || loadingPdf}
-  >
-    <Download className="w-5 h-5 mr-1" />
-    {loadingPdf ? "Loading..." : "Download Certificate"}
-  </Button>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              {/* 🏆 Download Certificate */}
+              <Button
+                className="w-full sm:w-auto px-6 py-6 font-semibold text-lg bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all flex items-center justify-center"
+                onClick={() => window.open(pdfUrl, "_blank")}
+                disabled={!pdfUrl || loadingPdf}
+              >
+                <Download className="w-5 h-5 mr-1" />
+                {loadingPdf ? "Loading..." : "Download Certificate"}
+              </Button>
 
-  {/* 📤 Share Buttons */}
-  <div className="flex flex-wrap justify-center gap-4">
-    
-    {/* WhatsApp */}
-    <WhatsappShareButton url={shareUrl} title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
-    >
-      <Button className="w-full sm:w-auto px-6 py-6 text-lg font-semibold bg-green-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-green-600 transition-all">
-        <Share2 className="w-5 h-5 mr-1" />
-        WhatsApp
-      </Button>
-    </WhatsappShareButton>
+              {/* 📤 Share Buttons */}
+              <div className="flex flex-wrap justify-center gap-4">
+                {/* WhatsApp */}
+                <WhatsappShareButton
+                  url={shareUrl}
+                  title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
+                >
+                  <Button className="w-full sm:w-auto px-6 py-6 text-lg font-semibold bg-green-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-green-600 transition-all">
+                    <Share2 className="w-5 h-5 mr-1" />
+                    WhatsApp
+                  </Button>
+                </WhatsappShareButton>
 
-    {/* Twitter */}
-    <TwitterShareButton url={shareUrl} title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
-    >
-      <Button className="w-full sm:w-auto px-6 py-6 mx-1 text-lg font-semibold bg-blue-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-blue-600 transition-all">
-        <Share2 className="w-5 h-5" />
-        Twitter
-      </Button>
-    </TwitterShareButton>
+                {/* Twitter */}
+                <TwitterShareButton
+                  url={shareUrl}
+                  title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
+                >
+                  <Button className="w-full sm:w-auto px-6 py-6 mx-1 text-lg font-semibold bg-blue-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-blue-600 transition-all">
+                    <Share2 className="w-5 h-5" />
+                    Twitter
+                  </Button>
+                </TwitterShareButton>
 
-    {/* Instagram Copy & Share */}
-    <button
-      onClick={() => handleCopyToClipboard(shareUrl)}
-      className="w-full sm:w-auto px-6 py-3 text-base font-semibold bg-pink-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-pink-600 transition-all"
-    >
-      <Copy className="w-5 h-5 mr-2" />
-      Copy & Share on Instagram
-    </button>
-  </div>
-</div>
-
+                {/* Instagram Copy & Share */}
+                <button
+                  onClick={() => handleCopyToClipboard(shareUrl)}
+                  className="w-full sm:w-auto px-6 py-3 text-base font-semibold bg-pink-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-pink-600 transition-all"
+                >
+                  <Copy className="w-5 h-5 mr-2" />
+                  Copy & Share on Instagram
+                </button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </motion.div>
@@ -223,6 +244,9 @@ function ResultContent() {
 
 // ✅ Loading Component
 function LoadingComponent() {
-  return <div className="flex items-center justify-center min-h-screen">Loading results...</div>;
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      Loading results...
+    </div>
+  );
 }
-
