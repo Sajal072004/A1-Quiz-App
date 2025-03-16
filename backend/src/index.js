@@ -40,6 +40,7 @@ cron.schedule("*/14 * * * *", async () => {
   console.log("⏳ Running cron job: Fetching data from database...");
   try {
     const response = await axios.get("https://backend-906o.onrender.com"); // Change URL accordingly
+    const project = await axios.get('https://projectmanagement-final.onrender.com');
     console.log("✅ Cron Job Success:", response.data);
   } catch (error) {
     console.error("❌ Cron Job Error:", error.message);
