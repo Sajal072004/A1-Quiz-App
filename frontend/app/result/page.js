@@ -5,10 +5,10 @@ import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Mail, Download, Share2, Copy } from "lucide-react";
+import { Mail, Download, Share2} from "lucide-react";
 import Image from "next/image";
 import learningData from "../../lib/constants/learningType.json";
-import { WhatsappShareButton, TwitterShareButton } from "react-share";
+import { WhatsappShareButton } from "react-share";
 
 export default function ResultPage() {
   return (
