@@ -107,7 +107,7 @@ export const sendEmail = async (req, res) => {
       return res.status(400).json({ success: false, error: "Missing or invalid required fields" });
     }
 
-    console.log("Generating PDF and uploading to Cloudinary...");
+    console.log("Generating PDF and uploading to Cloudinary... for ", name);
     const pdfUrl = await generateCertificatePDF(name, type);
 
     console.log("Sending email...");
@@ -246,7 +246,7 @@ export const getCertificatePDF = async (req, res) => {
       return res.status(400).json({ success: false, error: "Missing or invalid parameters" });
     }
 
-    console.log("Generating and uploading certificate PDF...");
+    console.log("Generating and uploading certificate PDF... for ", name);
     const pdfUrl = await generateCertificatePDF(name, type);
 
     return res.json({ success: true, pdfUrl });
