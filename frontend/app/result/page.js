@@ -117,7 +117,7 @@ function ResultContent() {
 
   return (
     <motion.div
-      className="flex flex-col items-center justify-center min-h-screen px-8 py-12 bg-gradient-to-br from-blue-100 to-white dark:from-gray-900 dark:to-gray-800 mt-12"
+      className="flex flex-col items-center justify-center min-h-screen px-8 py-12 bg-gradient-to-br from-blue-200 to-blue-100 dark:from-gray-900 dark:to-gray-800 mt-12"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -142,7 +142,7 @@ function ResultContent() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <Card className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl border border-gray-300 dark:border-gray-800 text-center">
+        <Card className="bg-gray-100 dark:bg-gray-800 shadow-2xl rounded-3xl border border-gray-300 dark:border-gray-800 text-center">
           <CardHeader>
             <CardTitle className="text-4xl font-extrabold text-gray-800 dark:text-white">
               🎉 Congratulations, {user ? user.name : "Student"}! 🎉
@@ -190,51 +190,41 @@ function ResultContent() {
             </ul>
 
             {/* 📜 Download & Share */}
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              {/* 🏆 Download Certificate */}
-              <Button
-                className="w-full sm:w-auto px-6 py-6 font-semibold text-lg bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all flex items-center justify-center"
-                onClick={() => window.open(pdfUrl, "_blank")}
-                disabled={!pdfUrl || loadingPdf}
-              >
-                <Download className="w-5 h-5 mr-1" />
-                {loadingPdf ? "Loading..." : "Download Certificate"}
-              </Button>
+<div className="mt-12 flex flex-col items-center space-y-6">
+  {/* 📤 Share Actions */}
+  <div className="flex flex-wrap justify-center gap-6">
+    
+    {/* 🏆 Download Certificate */}
+    <Button
+      className="w-full sm:w-auto px-8 py-6 text-lg font-semibold bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition-all flex items-center justify-center"
+      onClick={() => window.open(pdfUrl, "_blank")}
+      disabled={!pdfUrl || loadingPdf}
+    >
+      <Download className="w-6 h-6 mr-2" />
+      {loadingPdf ? "Generating..." : "Download Certificate"}
+    </Button>
 
-              {/* 📤 Share Buttons */}
-              <div className="flex flex-wrap justify-center gap-4">
-                {/* WhatsApp */}
-                <WhatsappShareButton
-                  url={shareUrl}
-                  title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
-                >
-                  <Button className="w-full sm:w-auto px-6 py-6 text-lg font-semibold bg-green-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-green-600 transition-all">
-                    <Share2 className="w-5 h-5 mr-1" />
-                    WhatsApp
-                  </Button>
-                </WhatsappShareButton>
+    {/* 📲 WhatsApp Share */}
+    <WhatsappShareButton
+      url={shareUrl}
+      title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
+    >
+      <Button className="w-full sm:w-auto px-8 py-6 text-lg font-semibold bg-green-500 text-white rounded-xl shadow-lg flex items-center justify-center hover:bg-green-600 transition-all">
+        <Share2 className="w-6 h-6 mr-2" />
+        Share on WhatsApp
+      </Button>
+    </WhatsappShareButton>
+  </div>
 
-                {/* Twitter */}
-                <TwitterShareButton
-                  url={shareUrl}
-                  title="🎓 I just earned my Learning Certificate! 🚀 #Learning #Education #A1Academy"
-                >
-                  <Button className="w-full sm:w-auto px-6 py-6 mx-1 text-lg font-semibold bg-blue-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-blue-600 transition-all">
-                    <Share2 className="w-5 h-5" />
-                    Twitter
-                  </Button>
-                </TwitterShareButton>
+  {/* 🎉 Instagram Share Notice */}
+  <div className="w-full sm:w-auto bg-gradient-to-r from-pink-100 to-pink-200 dark:from-pink-200 dark:to-pink-300 text-pink-800 p-6 rounded-xl shadow-md flex flex-col items-center justify-center border border-pink-300 max-w-lg text-center">
+    <p className="text-lg font-semibold">
+      🎉 Share your certificate on Instagram and tag <span className="font-bold">@a1academy_jbp</span>.  
+      We will feature it in our story and tag you back! 🚀
+    </p>
+  </div>
+</div>
 
-                {/* Instagram Copy & Share */}
-                <button
-                  onClick={() => handleCopyToClipboard(shareUrl)}
-                  className="w-full sm:w-auto px-6 py-3 text-base font-semibold bg-pink-500 text-white rounded-lg shadow-md flex items-center justify-center hover:bg-pink-600 transition-all"
-                >
-                  <Copy className="w-5 h-5 mr-2" />
-                  Copy & Share on Instagram
-                </button>
-              </div>
-            </div>
           </CardContent>
         </Card>
       </motion.div>

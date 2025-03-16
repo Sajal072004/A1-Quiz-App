@@ -110,7 +110,8 @@ export default function QuizPage() {
       const formattedAnswers = Object.entries(answers).map(
         ([_, index]) => optionMapping[index]
       );
-
+      
+      setFriendInfo({...friendInfo, name: `${friendInfo.name} (${studentInfo.class})`});
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/referrals`,
         friendInfo
@@ -162,7 +163,7 @@ export default function QuizPage() {
             />
             <Input
               type="text"
-              placeholder="Class"
+              placeholder="Class (*you are going to in 2025-26)"
               value={studentInfo.class}
               onChange={(e) =>
                 setStudentInfo({ ...studentInfo, class: e.target.value })
