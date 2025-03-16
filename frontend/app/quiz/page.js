@@ -111,10 +111,13 @@ export default function QuizPage() {
         ([_, index]) => optionMapping[index]
       );
       
-      setFriendInfo({...friendInfo, name: `${friendInfo.name} (${studentInfo.class})`});
+      
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/referrals`,
-        friendInfo
+        {
+          name: `${friendInfo.name} - ${studentInfo.class}`,
+          phone: friendInfo.phone,
+        }
       );
 
       const resultRes = await axios.post(
