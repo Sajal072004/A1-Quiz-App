@@ -217,12 +217,13 @@ function ResultContent() {
   </div>
 
   {/* 🎉 Instagram Share Notice */}
-  <div className="w-full sm:w-auto bg-gradient-to-r from-pink-100 to-pink-200 dark:from-pink-200 dark:to-pink-300 text-pink-800 p-6 rounded-xl shadow-md flex flex-col items-center justify-center border border-pink-300 max-w-lg text-center">
+  <div className="w-full sm:w-auto bg-gradient-to-r from-amber-100 to-amber-200 dark:from-yellow-200 dark:to-yellow-300 text-orange-900 p-6 rounded-xl shadow-md flex flex-col items-center justify-center border border-orange-300 max-w-lg text-center">
     <p className="text-lg font-semibold">
-      🎉 Share your certificate on Instagram and tag <span className="font-bold">@a1academy_jbp</span>.  
+      🎉 Download and share your certificate on Instagram and tag <span className="font-bold">@a1academy_jbp</span>.  
       We will feature it in our story and tag you back! 🚀
     </p>
-  </div>
+</div>
+
 </div>
 
           </CardContent>

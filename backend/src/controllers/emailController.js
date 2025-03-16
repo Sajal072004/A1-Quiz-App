@@ -1,119 +1,112 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import { readFileSync, writeFileSync, existsSync, unlinkSync } from "fs";
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { createCanvas, loadImage } from "canvas";
 import path from "path";
 import { fileURLToPath } from "url";
 import cloudinary from "cloudinary";
+import {promises as fs, existsSync} from 'fs'
 
 dotenv.config();
 
-// Fix for JSON import issue in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const learningData = JSON.parse(
-  readFileSync(path.join(__dirname, "../libs/learningType.json"), "utf-8")
+  await fs.readFile(path.join(__dirname, "../libs/learningType.json"), "utf-8")
 );
 
-// Configure Cloudinary
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Function to generate and upload PDF to Cloudinary
-const generateCertificatePDF = async (name, type) => {
-  const templatePath = path.join(__dirname, `../templates/${learningData[type].certificate}`);
+/**
+ * Generates a certificate image and uploads directly to Cloudinary.
+ * @param {string} name - User's name
+ * @param {string} type - Learning type (e.g., Visual, Auditory)
+ * @returns {Promise<string>} - URL of uploaded certificate
+ */
+const generateCertificateImage = async (name, type) => {
+  try {
+    console.log("Generating certificate for:", name, "Type:", type);
+    const templatePath = path.join(__dirname, `../templates/${learningData[type].certificate}`);
 
-  if (!existsSync(templatePath)) {
-    throw new Error(`Certificate template not found for type: ${type}`);
+    if (!existsSync(templatePath)) {
+      throw new Error(`Certificate template not found for type: ${type}`);
+    }
+
+    const image = await loadImage(templatePath);
+    const canvas = createCanvas(image.width, image.height);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(image, 0, 0, image.width, image.height);
+
+    ctx.font = "100px Helvetica Bold";
+    ctx.fillStyle = "rgb(8, 82, 81)";
+    ctx.fillText(name, 550, 1080);
+
+    const formattedDate = new Date().toLocaleDateString("en-GB", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+    });
+    ctx.font = "45px Helvetica Oblique";
+    ctx.fillStyle = "rgb(30, 254, 254)";
+    ctx.fillText(formattedDate, 350, 1970);
+
+    ctx.font = "90px Helvetica Bold";
+    ctx.fillStyle = "rgb(8, 82, 81)";
+    ctx.fillText(learningData[type].title, 500, 1535);
+
+    const buffer = canvas.toBuffer("image/png");
+
+    // Correct Cloudinary upload
+    const uploadResponse = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.v2.uploader.upload_stream(
+        { resource_type: "image", folder: "certificates", public_id: `${name}_certificate_${Date.now()}` },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+
+      uploadStream.end(buffer);
+    });
+
+    console.log("Uploaded certificate URL:", uploadResponse.secure_url);
+    return uploadResponse.secure_url;
+  } catch (error) {
+    console.error("Error generating certificate:", error);
+    throw error;
   }
-
-  // Load the selected certificate template
-  const pdfBytes = readFileSync(templatePath);
-  const pdfDoc = await PDFDocument.load(pdfBytes);
-  const pages = pdfDoc.getPages();
-  const firstPage = pages[0];
-
-  // Define exact positions based on image analysis
-  const nameX = 200; // X-coordinate for name
-  const nameY = 354; // Y-coordinate for name
-  const dateX = 120; // X-coordinate for date
-  const dateY = 34; // Y-coordinate for date
-
-  const typeX = 200;
-  const typeY = 191;
-
-  // Add name dynamically
-  firstPage.drawText(name, {
-    x: nameX,
-    y: nameY,
-    size: 35,
-    color: rgb(8 / 255, 82 / 255, 81 / 255), // Converted to range 0-1
-    font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
-});
-
-const formattedDate = new Date().toLocaleDateString("en-GB", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-});
-
-// Add date dynamically
-firstPage.drawText(formattedDate, {
-    x: dateX,
-    y: dateY,
-    size: 18,
-    color: rgb(30 / 255, 254 / 255, 254 / 255), // Cyan color in 0-1 range
-    font: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
-});
- 
-firstPage.drawText(learningData[type].title, {
-  x: typeX,
-  y: typeY,
-  size: 32,
-  color: rgb(8 / 255, 82 / 255, 81 / 255), // Cyan color in 0-1 range
-  font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
-});
-
-
-  // Save modified PDF to temporary file
-  const newPdfBytes = await pdfDoc.save();
-  const tempFilePath = path.join(__dirname, "../generated", `${name}_certificate.pdf`);
-  writeFileSync(tempFilePath, newPdfBytes);
-
-  // Upload to Cloudinary
-  const uploadResponse = await cloudinary.v2.uploader.upload(tempFilePath, {
-    resource_type: "raw", // Important for PDFs
-    folder: "certificates",
-    public_id: `${name}_certificate`,
-    format: "pdf",
-  });
-
-  // Delete local generated file after upload
-  unlinkSync(tempFilePath);
-
-  return uploadResponse.secure_url; // Cloudinary PDF URL
 };
 
 
-// Send Email Function (Now uses Cloudinary URL)
+/**
+ * Handles email sending with the certificate.
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ */
 export const sendEmail = async (req, res) => {
   try {
+    console.log("Received email request:", req.body);
     const { name, email, type } = req.body;
-
+    
     if (!name || !email || !type || !learningData[type]) {
       return res.status(400).json({ success: false, error: "Missing or invalid required fields" });
     }
 
-    console.log("Generating PDF and uploading to Cloudinary... for ", name);
-    const pdfUrl = await generateCertificatePDF(name, type);
+    // Start generating the certificate
+    const certificatePromise = generateCertificateImage(name, type);
 
-    console.log("Sending email...");
+    // Prepare email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NEXT_PUBLIC_EMAIL_USER,
+        pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
+      },
+    });
 
     const emailText = `
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
   <style>
@@ -197,28 +190,22 @@ export const sendEmail = async (req, res) => {
   </div>
 
 </body>
-</html>
-`;
+</html>`;
 
+    // Get Certificate URL
+    const pdfUrl = await certificatePromise;
+    if (!pdfUrl) {
+      throw new Error("Failed to generate certificate URL");
+    }
 
-const formattedEmailText = emailText
+    // Replace the URL in email
+    const formattedEmailText = emailText
   .replace("{name}", name)
   .replace("{title}", learningData[type].title)
   .replace("{speciality}", learningData[type].speciality)
   .replace("{badgeUrl}", learningData[type].badgeUrl)
   .replace("{suggestions}", learningData[type].suggestions.map((s) => `<li>${s}</li>`).join(""))
   .replace("{pdfUrl}", pdfUrl);
-
-
-
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.NEXT_PUBLIC_EMAIL_USER,
-        pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
-      },
-    });
 
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
@@ -227,9 +214,10 @@ const formattedEmailText = emailText
       html: formattedEmailText,
     };
 
+    // Send email in parallel
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully!");
 
+    console.log("Email sent successfully to:", email);
     return res.json({ success: true, message: "Email sent successfully!", pdfUrl });
   } catch (error) {
     console.error("Error sending email:", error);
@@ -237,21 +225,24 @@ const formattedEmailText = emailText
   }
 };
 
-// API to get Cloudinary PDF URL
+/**
+ * Handles API request to generate a certificate and return its URL.
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ */
 export const getCertificatePDF = async (req, res) => {
   try {
+    console.log("Received certificate request:", req.query);
     const { name, type } = req.query;
-
+    
     if (!name || !type || !learningData[type]) {
       return res.status(400).json({ success: false, error: "Missing or invalid parameters" });
     }
 
-    console.log("Generating and uploading certificate PDF... for ", name);
-    const pdfUrl = await generateCertificatePDF(name, type);
-
+    const pdfUrl = await generateCertificateImage(name, type);
     return res.json({ success: true, pdfUrl });
   } catch (error) {
-    console.error("Error generating PDF:", error);
+    console.error("Error generating certificate:", error);
     return res.status(500).json({ success: false, error: error.message });
   }
 };

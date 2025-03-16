@@ -8,7 +8,7 @@
       "Highlight important information in different colors.",
       "Watch educational videos and tutorials."
     ],
-    "certificate":"visual1.pdf"
+    "certificate":"visual1.png"
   },
   "Auditory": {
     "title": "Auditory Learner",
@@ -19,7 +19,7 @@
       "Engage in group discussions.",
       "Listen to podcasts and audiobooks."
     ],
-    "certificate":"auditory1.pdf"
+    "certificate":"auditory1.png"
   },
   "Reading/Writing": {
     "title": "Reading/Writing Learner",
@@ -30,7 +30,7 @@
       "Summarize key points in your own words.",
       "Create lists and structured outlines."
     ],
-    "certificate":"reading-writing1.pdf"
+    "certificate":"reading-writing1.png"
   },
   "Kinesthetic": {
     "title": "Kinesthetic Learner",
@@ -41,6 +41,6 @@
       "Use physical objects to represent concepts.",
       "Take frequent breaks and move while studying."
     ],
-    "certificate":"kinesthetic1.pdf"
+    "certificate":"kinesthetic1.png"
   }
 }
