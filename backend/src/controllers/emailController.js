@@ -49,7 +49,7 @@ const generateCertificateImage = async (name, type) => {
     });
     ctx.font = "45px Helvetica Oblique";
     ctx.fillStyle = "rgb(30, 254, 254)";
-    ctx.fillText(formattedDate, 350, 1970);
+    ctx.fillText(formattedDate, 346, 1970);
 
     ctx.font = "90px Helvetica Bold";
     ctx.fillStyle = "rgb(8, 82, 81)";
